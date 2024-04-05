@@ -4,7 +4,8 @@ on:
   push
 
 jobs:
-  build:
+  selenium_test:
+    name: Selenium Tests
     runs-on: ubuntu-latest
 
     steps:
@@ -19,6 +20,33 @@ jobs:
 
       - name: Installing Chrome 
         uses: browser-actions/setup-chrome@v1
-        
+
+      - run: chrome --version
+      - run: mvn clean test
+
+      # - name: Uploading an artifact
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: my-artifact
+      #     path: test-output/abcd.html
+  
+  
+  postman:
+    name: Postman Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name : Installing Java Maven
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin' # See 'Supported distributions' for available options
+          java-version: '21'
+          cache: 'maven' 
+
+      - name: Installing Chrome 
+        uses: browser-actions/setup-chrome@v1
+
       - run: chrome --version
       - run: mvn clean test
